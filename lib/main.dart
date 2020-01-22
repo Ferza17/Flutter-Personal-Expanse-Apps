@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import './transaction.dart';
+import './widgets/user_transactions.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue[200],
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -28,14 +32,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> transactions = [
-    Transaction(
-        id: 't1', amount: 69.99, title: 'New Shoes', date: DateTime.now()),
-    Transaction(
-        id: 't2', amount: 78.99, title: 'New Mouse', date: DateTime.now()),
-    Transaction(
-        id: 't3', amount: 90.99, title: 'New Keyboard', date: DateTime.now()),
-  ];
+  
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 50,
             child: Card(
               color: Colors.blueAccent,
-              child: Text('CHART!',
+              child: Text('CHARTs',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -60,71 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
               elevation: 5,
             ),
           ),
-          Card(
-            elevation: 5,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Title'),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Amount'),
-                  ),
-                  FlatButton(
-                    child: Text('Add Transaction'),
-                    textColor: Colors.purple,
-                    onPressed: () {},
-                  )
-                ],
-              ),
-            ),
-          ),
-          Column(
-            children: transactions.map((tx) {
-              return Card(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 15,
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.purple,
-                        width: 2,
-                      )),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        ' \$${tx.amount}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          tx.title,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          DateFormat().add_yMMMd().format(tx.date),
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
+          UserTransactions(),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
