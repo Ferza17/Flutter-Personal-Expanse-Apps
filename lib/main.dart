@@ -15,7 +15,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
-        primarySwatch: Colors.blue[200],
+        primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -32,7 +32,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
@@ -42,27 +41,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: 50,
-            child: Card(
-              color: Colors.blueAccent,
-              child: Text('CHARTs',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center),
-              elevation: 5,
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 50,
+              child: Card(
+                color: Colors.blue,
+                child: Text('CHARTs',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+                elevation: 5,
+              ),
             ),
-          ),
-          UserTransactions(),
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+            UserTransactions(),
+          ],
+        ),
+      ), //
     );
   }
 }
