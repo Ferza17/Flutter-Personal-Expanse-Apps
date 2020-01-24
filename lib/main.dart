@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './widgets/user_transactions.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
+import './models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,14 +34,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final List<Transaction> _userTransaction = [
+    Transaction(
+        id: 't1', amount: 69.99, title: 'New Shoes', date: DateTime.now()),
+    Transaction(
+        id: 't2', amount: 78.99, title: 'New Mouse', date: DateTime.now()),
+    Transaction(
+        id: 't3', amount: 90.99, title: 'New Keyboards', date: DateTime.now()),
+  ];
+
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+        title: txTitle,
+        amount: txAmount,
+        date: DateTime.now(),
+        id: DateTime.now().toString());
+
+    setState(() {
+      _userTransaction.add(newTx);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector( child: NewTransaction(_addNewTransaction), onTap: () {}, behavior: HitTestBehavior.opaque,  );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            color: Colors.white,
+            onPressed: () => _startAddNewTransaction(context),
+          )
+        ],
       ),
       body: Container(
         child: Column(
@@ -51,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 50,
               child: Card(
                 color: Colors.blue,
-                child: Text('CHARTs',
+                child: Text('CHART',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -60,9 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            TransactionList(_userTransaction),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
       ), //
     );
   }
